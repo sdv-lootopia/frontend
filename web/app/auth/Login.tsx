@@ -9,7 +9,6 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { LootopiaLogo } from "@/components/lootopia-logo"
 
-// Validation schema for login
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Adresse email invalide").required("L'email est obligatoire"),
     password: Yup.string()
@@ -48,7 +47,6 @@ export function LoginForm({ onSwitchToRegister, onSocialAuth }: LoginFormProps) 
 
             <div className="border-t border-gray-200 my-4"></div>
 
-            {/* Social Login Buttons */}
             <SocialButtons mode="login" onSocialAuth={onSocialAuth} />
             <FormDivider />
 

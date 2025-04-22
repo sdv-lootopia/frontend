@@ -6,7 +6,6 @@ import { SocialButtons, FormDivider } from "./SocialButtons"
 import { useState } from "react"
 import { LootopiaLogo } from "@/components/lootopia-logo"
 
-// Validation schema for registration
 const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
         .required("Le nickname est obligatoire")
@@ -46,7 +45,6 @@ export function RegisterForm({ onSwitchToLogin, onSocialAuth }: RegisterFormProp
 
             <div className="border-t border-gray-200 my-4"></div>
 
-            {/* Social Registration Buttons */}
             <SocialButtons mode="register" onSocialAuth={onSocialAuth} />
             <FormDivider />
 

@@ -42,7 +42,6 @@ export function SocialButtons({ mode, onSocialAuth }: SocialButtonsProps) {
   )
 }
 
-// Composant pour l'icône Google
 export function GoogleIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
