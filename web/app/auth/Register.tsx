@@ -5,6 +5,7 @@ import * as Yup from "yup"
 import { SocialButtons, FormDivider } from "./SocialButtons"
 import { useState } from "react"
 import { LootopiaLogo } from "@/components/lootopia-logo"
+import Link from "next/link"
 
 const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -33,14 +34,26 @@ export function RegisterForm({ onSwitchToLogin, onSocialAuth }: RegisterFormProp
 
     return (
         <div className="w-full">
-            <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 text-teal-600">
-                    <LootopiaLogo />
+
+            <div className="flex items-center justify-between gap-4 mb-4">
+                <div className="flex flex-row items-center gap-3">
+                    <div className="w-12 h-12 text-teal-600">
+                        <LootopiaLogo />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-bold">Inscription</h1>
+                        <p className="text-gray-600">Bienvenue sur Lootopia !</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 className="text-3xl font-bold">Inscription</h1>
-                    <p className="text-gray-600">Bienvenue sur Lootopia !</p>
-                </div>
+
+
+                <Link
+                    href="/partner-register"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-indigo-300 text-indigo-700 rounded-md text-sm hover:bg-indigo-50 transition-colors"
+                >
+                    <span>S’inscrire en tant que partenaire</span>
+                </Link>
+
             </div>
 
             <div className="border-t border-gray-200 my-4"></div>
@@ -116,6 +129,7 @@ export function RegisterForm({ onSwitchToLogin, onSocialAuth }: RegisterFormProp
                             >
                                 Déjà un compte ?
                             </button>
+
                         </div>
                     </Form>
                 )}
