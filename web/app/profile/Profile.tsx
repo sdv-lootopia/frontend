@@ -5,9 +5,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Pencil } from "lucide-react"
 import BasePage from "@/components/base-page"
 import { useUser } from "@/lib/useUser"
+import { useEffect } from "react"
 
 export default function Profile() {
     const { user } = useUser();
+
+    useEffect(() => {
+        document.title = "Profil - Lootopia";
+    }, [])
 
     return (
         <BasePage>
