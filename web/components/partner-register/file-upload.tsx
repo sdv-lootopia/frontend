@@ -2,7 +2,7 @@
 
 import { Paperclip } from "lucide-react"
 import { useFormikContext } from "formik"
-import { FileList } from "../../components/partner-register/file-list"
+import { FileList } from "@/components/partner-register/file-list"
 
 interface FileUploadFieldProps {
     name: string
