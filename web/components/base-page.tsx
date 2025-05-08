@@ -1,18 +1,21 @@
 "use client"
 
-import Link from "next/link";
+import Link from "next/link"
 import Image from "next/image"
-import { LootopiaLogo } from "./lootopia-logo";
-import { ReactNode, useState } from "react";
-import { useUser } from "@/lib/useUser";
+import { LootopiaLogo } from "./lootopia-logo"
+import { ReactNode, useState } from "react"
+import { useUser } from "@/lib/useUser"
+import { CrownIcon } from "lucide-react"
+import CartSidebar from "./cart/cart-sidebar"
+import CartButton from "./cart/cart-button"
 
 interface BasePageProps {
-    children: ReactNode;
+    children: ReactNode
 }
 
 export default function BasePage({ children }: BasePageProps) {
-    const [open, setOpen] = useState(false);
-    const { user } = useUser();
+    const [open, setOpen] = useState(false)
+    const { user } = useUser()
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
@@ -23,12 +26,23 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
 
                 <nav className="flex items-center gap-2 relative">
-                    <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                    <Link href="/shop" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Boutique
                     </Link>
                     <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Chasses
                     </Link>
+                    <CartButton />
+                    <Link
+                        href="/buy-crowns"
+                        className="group flex items-center rounded-4xl bg-[#EAF6F6] px-4 py-1.5 mr-4 transition-colors hover:bg-blue-100"
+                        aria-label="Acheter des Couronnes"
+                    >
+                        <CrownIcon className="text-yellow-400" />
+                        <span className="ml-2 font-medium">1,453</span>
+                        <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline">→ Acheter</span>
+                    </Link>
+
                     <div className="text-xs text-right flex flex-col">
                         <span>{user?.nickname}</span>
                         <span>{user?.email}</span>
@@ -61,6 +75,8 @@ export default function BasePage({ children }: BasePageProps) {
 
             <main>{children}</main>
 
+            <CartSidebar />
+
             <footer className="w-full border-t py-6 px-4 text-sm text-gray-500 bg-white mt-4">
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
                     <p>&copy; {new Date().getFullYear()} Lootopia. Tous droits réservés.</p>
@@ -78,5 +94,5 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
             </footer>
         </div>
-    );
+    )
 }
