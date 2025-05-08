@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FormField } from './FormField'
+import { FormField } from './form-field'
 import { useFormikContext } from 'formik'
 
 type Suggestion = {

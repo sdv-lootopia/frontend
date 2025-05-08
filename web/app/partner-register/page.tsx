@@ -6,8 +6,8 @@ import type { FormikProps } from "formik"
 import { useEffect, useRef, useState } from "react"
 import { Users, Globe, Handshake, HeadphonesIcon, Calendar } from "lucide-react"
 import { LootopiaLogo } from "@/components/LootopiaLogo"
-import { RegisterForm } from "./RegisterForm"
-import { Card } from "./Card"
+import { RegisterForm } from "../../components/partner-register/register-form"
+import { Card } from "../../components/partner-register/card"
 
 export default function PartenaireInscription() {
     const [currentTab, setCurrentTab] = useState(1)

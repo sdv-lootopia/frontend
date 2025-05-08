@@ -4,10 +4,10 @@ import type React from "react"
 
 import { Formik, Form, type FormikProps } from "formik"
 import * as Yup from "yup"
-import { FormField } from "./FormField"
-import { TextAreaField } from "./TextAreaField"
-import { Address } from "./Address"
-import { FileUpload } from "./FileUpload"
+import { FormField } from "./form-field"
+import { TextAreaField } from "./textarea-field"
+import { Address } from "./address"
+import { FileUpload } from "./file-upload"
 
 interface RegisterFormProps {
     currentTab: number
