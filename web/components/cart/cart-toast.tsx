@@ -13,8 +13,13 @@ export default function CartToast() {
     useEffect(() => {
         if (items.length > 0) {
             const lastItem = items[items.length - 1]
-            setLastAddedItem(lastItem.product.name)
-            setShowToast(true)
+            const lastToastItemName = sessionStorage.getItem("lastToastItem")
+
+            if (lastToastItemName !== lastItem.product.name) {
+                setLastAddedItem(lastItem.product.name)
+                setShowToast(true)
+                sessionStorage.setItem("lastToastItem", lastItem.product.name)
+            }
         }
     }, [items])
 
