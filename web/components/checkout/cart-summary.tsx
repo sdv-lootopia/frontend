@@ -40,19 +40,19 @@ export default function CartSummary({
                 <div className="flex justify-between font-medium text-sand-500">
                     <span>Total</span>
                     <div className="flex items-center">
-                        <Crown className="mr-1 h-5 w-5 text-blue-300" />
+                        <Crown className="mr-1 h-5 w-5 text-blue-200" />
                         <span>{totalPrice}</span>
                     </div>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-blue-200">Votre solde</span>
-                    <div className="flex items-center text-blue-300">
+                    <div className="flex items-center text-blue-200">
                         <Crown className="mr-1 h-4 w-4" />
                         <span>{userBalance}</span>
                     </div>
                 </div>
                 {hasPhysicalProducts && (
-                    <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-300">
+                    <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-200">
                         <div className="flex items-center">
                             <Package className="mr-2 h-4 w-4" />
                             <span className="font-medium">Produits physiques dans votre panier</span>

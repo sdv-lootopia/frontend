@@ -9,8 +9,8 @@ interface CardProps {
 
 export function Card({ icon, title, description, children }: CardProps) {
     return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
+        <div className="rounded-xl border border-gray-50 bg-white p-6 shadow-sm transition-all hover:shadow-md">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
                 {icon}
             </div>
             <h3 className="mb-2 text-lg font-medium text-gray-900">{title}</h3>

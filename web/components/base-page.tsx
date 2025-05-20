@@ -32,16 +32,17 @@ export default function BasePage({ children }: BasePageProps) {
                     <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Chasses
                     </Link>
-                    <CartButton />
                     <Link
                         href="/buy-crowns"
-                        className="group flex items-center rounded-4xl bg-[#EAF6F6] px-4 py-1.5 mr-4 transition-colors hover:bg-blue-100"
+                        className="group flex items-center rounded-4xl bg-blue-50 px-4 py-1.5 mr-4 transition-colors text-blue-300 hover:bg-blue-100"
                         aria-label="Acheter des Couronnes"
                     >
-                        <CrownIcon className="text-yellow-400" />
+                        <CrownIcon className="h-5 w-5" />
                         <span className="ml-2 font-medium">1,453</span>
-                        <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline">→ Acheter</span>
+                        <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
                     </Link>
+                    <CartButton />
+
 
                     <div className="text-xs text-right flex flex-col">
                         <span>{user?.nickname}</span>

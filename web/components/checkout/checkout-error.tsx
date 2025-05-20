@@ -22,7 +22,7 @@ export default function CheckoutError({ errorMessage, onRetry }: Props) {
                     </Link>
                     <button
                         onClick={onRetry}
-                        className="rounded-full border border-blue-300 px-6 py-3 text-blue-300 hover:bg-blue-50"
+                        className="rounded-full border border-blue-200 px-6 py-3 text-blue-200 hover:bg-sand-50"
                     >
                         Réessayer
                     </button>

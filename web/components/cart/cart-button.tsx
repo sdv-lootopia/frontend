@@ -22,15 +22,14 @@ export default function CartButton() {
   return (
     <button
       onClick={toggleCart}
-      className="relative flex items-center rounded-full bg-blue-50 px-3 py-2 transition-all hover:bg-blue-100"
+      className="relative flex items-center rounded-full bg-sand-50 px-3 py-2 transition-all hover:bg-sand-100"
       aria-label="Ouvrir le panier"
     >
-      <ShoppingCart className={`h-5 w-5 text-blue-300 ${isAnimating ? "animate-bounce" : ""}`} />
+      <ShoppingCart className={`h-5 w-5 text-blue-200 ${isAnimating ? "animate-bounce" : ""}`} />
       {totalItems > 0 && (
         <span
-          className={`ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-bold text-white ${
-            isAnimating ? "animate-pulse" : ""
-          }`}
+          className={`ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-200 text-xs font-bold text-white ${isAnimating ? "animate-pulse" : ""
+            }`}
         >
           {totalItems}
         </span>

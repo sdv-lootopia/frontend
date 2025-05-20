@@ -14,7 +14,7 @@ export default function PartnerSubCategoryFilter({ activeSub, setActiveSub }: Pr
             <button
                 onClick={() => setActiveSub("tous")}
                 className={`${baseClass} ${activeSub === "tous"
-                    ? "bg-sand-300 text-grey"
+                    ? "bg-sand-300 text-white"
                     : "bg-neutral-50 text-sand-500 hover:bg-sand-50"
                     }`}
             >
@@ -23,7 +23,7 @@ export default function PartnerSubCategoryFilter({ activeSub, setActiveSub }: Pr
             <button
                 onClick={() => setActiveSub("produit-physique")}
                 className={`${baseClass} flex items-center ${activeSub === "produit-physique"
-                    ? "bg-sand-300 text-grey"
+                    ? "bg-sand-300 text-white"
                     : "bg-neutral-50 text-sand-500 hover:bg-sand-50"
                     }`}
             >
@@ -33,7 +33,7 @@ export default function PartnerSubCategoryFilter({ activeSub, setActiveSub }: Pr
             <button
                 onClick={() => setActiveSub("service")}
                 className={`${baseClass} flex items-center ${activeSub === "service"
-                    ? "bg-sand-300 text-grey"
+                    ? "bg-sand-300 text-white"
                     : "bg-neutral-50 text-sand-500 hover:bg-sand-50"
                     }`}
             >

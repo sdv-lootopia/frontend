@@ -54,7 +54,7 @@ export function Address() {
                     placeholder="Numéro et nom de rue"
                     value={values.street || ""}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded px-4 py-2 text-neutral-600"
+                    className="w-full border border-gray-400 rounded px-4 py-2 text-neutral-600"
                     required
                 />
                 {suggestions.length > 0 && (

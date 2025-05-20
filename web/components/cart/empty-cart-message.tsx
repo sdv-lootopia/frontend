@@ -16,7 +16,7 @@ export default function EmptyCartMessage({
 }: Props) {
     return (
         <div className="flex flex-col items-center justify-center py-8 text-center">
-            <ShoppingBag className="mb-4 h-16 w-16 text-neutral-300" />
+            <ShoppingBag className="mb-4 h-16 w-16 text-gray-200" />
             <h2 className="mb-2 text-xl font-medium text-sand-500">Votre panier est vide</h2>
             <p className="mb-6 text-blue-200">{message}</p>
             {(href || onClick) && (

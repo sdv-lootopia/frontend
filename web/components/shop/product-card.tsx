@@ -28,18 +28,20 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
     }, [product.expiresAt])
 
     return (
-        <div className="group overflow-hidden rounded-xl bg-neutral-50 shadow-sm hover:shadow-md">
+        <div className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-neutral-50 shadow-sm hover:shadow-md">
             <div className="relative">
-                <img src={product.image || "/placeholder.svg"} alt={product.name} className="h-48 w-full object-cover" />
+                <div className="relative aspect-square w-full overflow-hidden bg-[#F1F1EB]">
+                    <img src={product.image || "/placeholder.svg"} alt={product.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                </div>
                 <div className="absolute top-2 left-2 flex flex-col gap-1">
                     {product.new && (
                         <span className="rounded-full bg-blue-300 px-2 py-0.5 text-xs font-medium text-white">Nouveau</span>
                     )}
                     {product.featured && (
-                        <span className="rounded-full bg-sand-300 px-2 py-0.5 text-xs font-medium text-white">Populaire</span>
+                        <span className="rounded-full bg-sand-200 px-2 py-0.5 text-xs font-medium text-white">Populaire</span>
                     )}
                     {product.discount && (
-                        <span className="rounded-full bg-green-300 px-2 py-0.5 text-xs font-medium text-white">
+                        <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-white">
                             -{product.discount}%
                         </span>
                     )}
@@ -64,15 +66,18 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                     )}
                 </div>
             </div>
-            <div className="p-4">
-                <div className="mb-2 flex items-start justify-between">
-                    <h3 className="font-medium text-sand-500">{product.name}</h3>
-                    <div className="flex items-center text-blue-300">
-                        <Crown className="mr-1 h-4 w-4" />
-                        <span className="font-medium">{product.price}</span>
+            <div className="flex flex-1 flex-col p-4">
+                <div className="mb-auto">
+                    <div className="mb-2 flex items-start justify-between">
+                        <h3 className="font-medium text-sand-500 line-clamp-2">{product.name}</h3>
+                        <div className="flex items-center text-blue-300">
+                            <Crown className="mr-1 h-4 w-4" />
+                            <span className="font-medium">{product.price}</span>
+                        </div>
                     </div>
+                    <p className="mb-4 text-sm text-grey-200 line-clamp-3">{product.description}</p>
                 </div>
-                <p className="mb-4 text-sm text-grey-200">{product.description}</p>
+
                 {product.partner && (
                     <div className="mb-3 flex items-center">
                         <Tag className="mr-1.5 h-4 w-4 text-grey-300" />
@@ -87,9 +92,9 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                     </span>
                     <button
                         onClick={() => onBuy(product)}
-                        className="flex items-center rounded-full bg-blue-300 px-3 py-1 text-sm font-medium text-white hover:bg-blue-400"
+                        className="flex items-center rounded-full bg-blue-100 p-2 text-sm font-medium text-white hover:bg-blue-400"
                     >
-                        <ShoppingCart className="mr-1 h-4 w-4" /> Acheter
+                        <ShoppingCart className="h-5 w-5" />
                     </button>
                 </div>
             </div>

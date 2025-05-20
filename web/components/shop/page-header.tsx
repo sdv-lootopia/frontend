@@ -7,7 +7,7 @@ interface PageHeaderProps {
 }
 export default function PageHeader({
     title,
-    description, 
+    description,
     children
 }: PageHeaderProps) {
     return (

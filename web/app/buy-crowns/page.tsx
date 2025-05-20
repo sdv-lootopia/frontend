@@ -56,8 +56,8 @@ export default function BuyCrowns() {
                                             }`}
                                         onClick={() => setSelectedPack(pack.id)}
                                     >
-                                        <div className="mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-                                            <Crown className="h-8 w-8 text-blue-300" />
+                                        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
+                                            <Crown className="h-7 w-7 text-blue-300" />
                                         </div>
                                         <div className="mb-3 text-center">
                                             <p className="text-lg font-bold text-sand-500">{pack.amount} Couronnes</p>

@@ -23,7 +23,7 @@ export default function CrownsPack() {
                         key={pack.id}
                         className="flex flex-col items-center rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md"
                     >
-                        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+                        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
                             <Crown className="h-6 w-6 text-blue-300" />
                         </div>
                         <div className="mb-3 text-center">
