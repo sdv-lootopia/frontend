@@ -65,14 +65,14 @@ export default function BasePage({ children }: BasePageProps) {
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
                     <p>&copy; {new Date().getFullYear()} Lootopia. Tous droits réservés.</p>
                     <div className="flex gap-4">
-                        <Link href="/mentions-legales" className="hover:underline">
+                        <Link href="/informations-legales#mentions-legales" className="hover:underline">
                             Mentions légales
                         </Link>
-                        <Link href="/cgu" className="hover:underline">
+                        <Link href="/informations-legales#cgu" className="hover:underline">
                             CGU
                         </Link>
-                        <Link href="/contact" className="hover:underline">
-                            Contact
+                        <Link href="/informations-legales#confidentialite" className="hover:underline">
+                            Politique de confidentialité
                         </Link>
                     </div>
                 </div>
