@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import type { ReactNode } from "react"
-import BaseLayout from "@/components/base-page"
+import BasePage from "@/components/base-page"
 import CartToast from "@/components/cart/cart-toast"
 
 export const metadata: Metadata = {
@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function BoutiqueLayout({ children }: { children: ReactNode }) {
     return (
-        <BaseLayout>
+        <BasePage>
             {children}
             <CartToast />
-        </BaseLayout>
+        </BasePage>
     )
 }

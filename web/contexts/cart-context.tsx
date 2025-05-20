@@ -15,6 +15,9 @@ interface CartContextType {
     closeCart: () => void
     totalItems: number
     totalPrice: number
+    hasPhysicalProducts: boolean
+    lastAddedItem: string | null
+    setLastAddedItem: (name: string | null) => void
 }
 
 // Créer le contexte avec une valeur par défaut
@@ -24,6 +27,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [initialized, setInitialized] = useState(false)
+    const [lastAddedItem, setLastAddedItem] = useState<string | null>(null)
 
     // Charger le panier depuis le localStorage au montage du composant
     useEffect(() => {
@@ -60,6 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             }
         })
         setIsOpen(true) // Ouvrir le panier automatiquement
+        setLastAddedItem(product.name) // Définir le dernier article ajouté
     }
 
     // Supprimer un produit du panier
@@ -97,6 +102,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     // Calculer le prix total
     const totalPrice = items.reduce((total, item) => total + item.product.price * item.quantity, 0)
 
+    const hasPhysicalProducts = items.some(
+        (item) => item.product.category === "partner" && item.product.partnerSubCategory === "produit-physique",
+    )
+
     const value = {
         items,
         isOpen,
@@ -108,6 +117,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         closeCart,
         totalItems,
         totalPrice,
+        hasPhysicalProducts,
+        lastAddedItem,
+        setLastAddedItem,
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

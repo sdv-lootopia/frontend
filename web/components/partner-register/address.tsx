@@ -14,14 +14,13 @@ type Suggestion = {
 
 export function Address() {
     const apiKey = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY
-    const [query, setQuery] = useState('')
     const [suggestions, setSuggestions] = useState<Suggestion[]>([])
 
     const { values, setFieldValue } = useFormikContext<any>()
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        setQuery(value)
+        setFieldValue('street', value)
 
         if (value.length > 3) {
             const response = await fetch(
@@ -36,13 +35,11 @@ export function Address() {
 
     const handleSelect = (item: Suggestion) => {
         const fullStreet = item.properties.address_line1 || ''
-        setQuery(fullStreet)
-        setSuggestions([])
-
         setFieldValue('street', fullStreet)
         setFieldValue('city', item.properties.city || '')
-        setFieldValue('postcode', item.properties.postcode || '')
+        setFieldValue('postalCode', item.properties.postcode || '')
         setFieldValue('country', item.properties.country || '')
+        setSuggestions([])
     }
 
     return (
@@ -55,7 +52,7 @@ export function Address() {
                     type="text"
                     id="street"
                     placeholder="Numéro et nom de rue"
-                    value={query}
+                    value={values.street || ""}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded px-4 py-2 text-neutral-600"
                     required

@@ -1,5 +1,7 @@
+"use client"
+
 import Link from "next/link"
-import { Crown } from "lucide-react"
+import { Crown, Package } from "lucide-react"
 
 interface Props {
     totalItems: number
@@ -8,6 +10,9 @@ interface Props {
     onPay: () => void
     isProcessing: boolean
     cartEmpty: boolean
+    hasPhysicalProducts: boolean
+    shippingAddress: boolean
+    showAddressForm: boolean
 }
 
 export default function CartSummary({
@@ -16,7 +21,10 @@ export default function CartSummary({
     userBalance,
     onPay,
     isProcessing,
-    cartEmpty
+    cartEmpty,
+    hasPhysicalProducts,
+    shippingAddress,
+    showAddressForm,
 }: Props) {
     const insufficient = totalPrice > userBalance
 
@@ -43,16 +51,39 @@ export default function CartSummary({
                         <span>{userBalance}</span>
                     </div>
                 </div>
+                {hasPhysicalProducts && (
+                    <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-300">
+                        <div className="flex items-center">
+                            <Package className="mr-2 h-4 w-4" />
+                            <span className="font-medium">Produits physiques dans votre panier</span>
+                        </div>
+                        <p className="mt-1 text-blue-200">
+                            {shippingAddress
+                                ? "Votre commande sera livrée à l'adresse indiquée."
+                                : "Veuillez fournir une adresse de livraison pour ces articles."}
+                        </p>
+                    </div>
+                )}
                 <div className="pt-4">
                     <button
                         onClick={onPay}
-                        disabled={isProcessing || cartEmpty}
-                        className={`w-full rounded-full py-3 font-medium text-white transition-colors ${isProcessing || cartEmpty
-                                ? "bg-neutral-300 cursor-not-allowed"
-                                : "bg-blue-300 hover:bg-blue-400"
+                        disabled={
+                            isProcessing ||
+                            totalItems === 0 ||
+                            (hasPhysicalProducts && !shippingAddress && !showAddressForm)
+                        }
+                        className={`w-full rounded-full py-3 text-center font-medium text-white transition-colors ${isProcessing ||
+                            totalItems === 0 ||
+                            (hasPhysicalProducts && !shippingAddress && !showAddressForm)
+                            ? "bg-neutral-300 cursor-not-allowed"
+                            : "bg-blue-300 hover:bg-blue-400"
                             }`}
                     >
-                        {isProcessing ? "Traitement en cours..." : "Payer maintenant"}
+                        {isProcessing
+                            ? "Traitement en cours..."
+                            : hasPhysicalProducts && !shippingAddress && !showAddressForm
+                                ? "Ajouter une adresse de livraison"
+                                : "Payer maintenant"}
                     </button>
                 </div>
                 {insufficient && (
