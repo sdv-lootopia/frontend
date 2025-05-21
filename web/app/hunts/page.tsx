@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Calendar, Users, Plus } from "lucide-react"
+import { MapPin, Calendar, Users, Plus, Map } from "lucide-react"
 import BasePage from "@/components/base-page"
 
 // Données fictives pour les chasses
@@ -50,11 +50,18 @@ export default function HuntsPage() {
       <div className="container mx-auto py-8 px-4">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-[#211E12]">Tableau de Chasse</h1>
-          <Link href="/create-hunt">
-            <Button className="bg-[#7687C6] hover:bg-[#7687C6]/90">
-              <Plus className="mr-2 h-4 w-4" /> Créer une chasse
-            </Button>
-          </Link>
+          <div className="flex gap-3">
+            <Link href="/hunts/map">
+              <Button variant="outline" className="border-[#7687C6] text-[#7687C6] hover:bg-[#7687C6]/10">
+                <Map className="mr-2 h-4 w-4" /> Voir la carte
+              </Button>
+            </Link>
+            <Link href="/create-hunt">
+              <Button className="bg-[#7687C6] hover:bg-[#7687C6]/90">
+                <Plus className="mr-2 h-4 w-4" /> Créer une chasse
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -81,18 +88,17 @@ export default function HuntsPage() {
                 </div>
               </CardContent>
               <CardFooter className="border-t border-[#B5A878]/20 pt-4">
-                <Button
-                  variant="outline"
-                  className="w-full border-[#A7C55E] text-[#211E12] hover:bg-[#A7C55E]/10 hover:text-[#211E12]"
-                >
-                  Voir les détails
-                </Button>
+                <Link href={`/hunts/${hunt.id}`} className="w-full">
+                  <Button
+                    variant="outline"
+                    className="w-full border-[#A7C55E] text-[#211E12] hover:bg-[#A7C55E]/10 hover:text-[#211E12]"
+                  >
+                    Voir les détails
+                  </Button>
+                </Link>
               </CardFooter>
             </Card>
           ))}
-        </div>
-        <div className="p-8">
-          <h1 className="text-2xl font-bold mb-4">Liste des chasses</h1>
         </div>
       </div>
     </BasePage>
