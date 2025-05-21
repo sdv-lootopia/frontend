@@ -1,50 +1,58 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Calendar, Users, Plus, Map } from "lucide-react"
+import { MapPin, Calendar, Users, Plus, Map } from 'lucide-react'
 import BasePage from "@/components/base-page"
-
-// Données fictives pour les chasses
-const hunts = [
-  {
-    id: 1,
-    title: "Chasse au sanglier - Forêt de Brocéliande",
-    date: "15 octobre 2025",
-    location: "Forêt de Brocéliande, Bretagne",
-    participants: 8,
-    description:
-      "Chasse au sanglier organisée dans la mythique forêt de Brocéliande. Rendez-vous à l'aube pour une journée complète.",
-  },
-  {
-    id: 2,
-    title: "Battue aux chevreuils - Domaine des Chênes",
-    date: "22 novembre 2025",
-    location: "Domaine des Chênes, Sologne",
-    participants: 12,
-    description: "Battue aux chevreuils dans le prestigieux Domaine des Chênes. Déjeuner inclus au pavillon de chasse.",
-  },
-  {
-    id: 3,
-    title: "Chasse à courre - Château de Chambord",
-    date: "5 décembre 2025",
-    location: "Forêt de Chambord, Val de Loire",
-    participants: 20,
-    description: "Traditionnelle chasse à courre dans le domaine royal. Tenue vestimentaire appropriée exigée.",
-  },
-  {
-    id: 4,
-    title: "Chasse aux faisans - Les Étangs",
-    date: "18 janvier 2026",
-    location: "Domaine des Étangs, Charente",
-    participants: 6,
-    description:
-      "Journée de chasse aux faisans dans un cadre exceptionnel. Nombre de participants limité pour garantir une expérience de qualité.",
-  },
-]
+import { getHunts } from "@/lib/api"
+import type { Hunt } from "@/app/api/hunts/route"
 
 export default function HuntsPage() {
+  const [hunts, setHunts] = useState<Hunt[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchHunts() {
+      try {
+        const data = await getHunts()
+        setHunts(data)
+        setLoading(false)
+      } catch (err) {
+        console.error("Erreur lors de la récupération des chasses:", err)
+        setError("Impossible de charger les chasses. Veuillez réessayer plus tard.")
+        setLoading(false)
+      }
+    }
+
+    fetchHunts()
+  }, [])
+
+  if (loading) {
+    return (
+      <BasePage>
+        <div className="container mx-auto py-8 px-4 text-center">
+          <p>Chargement des chasses...</p>
+        </div>
+      </BasePage>
+    )
+  }
+
+  if (error) {
+    return (
+      <BasePage>
+        <div className="container mx-auto py-8 px-4 text-center">
+          <p className="text-red-500">{error}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Réessayer
+          </Button>
+        </div>
+      </BasePage>
+    )
+  }
+
   return (
     <BasePage>
       <div className="container mx-auto py-8 px-4">
@@ -64,42 +72,59 @@ export default function HuntsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hunts.map((hunt) => (
-            <Card key={hunt.id} className="border-[#B5A878]/20 shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="bg-[#A7C55E]/10 border-b border-[#B5A878]/20">
-                <CardTitle className="text-[#211E12]">{hunt.title}</CardTitle>
-                <CardDescription className="text-[#211E12]/70">{hunt.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="space-y-3">
-                  <div className="flex items-center text-[#211E12]/80">
-                    <Calendar className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{hunt.date}</span>
+        {hunts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-lg text-gray-500">Aucune chasse disponible pour le moment.</p>
+            <Link href="/create-hunt">
+              <Button className="mt-4 bg-[#7687C6] hover:bg-[#7687C6]/90">
+                <Plus className="mr-2 h-4 w-4" /> Créer une chasse
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {hunts.map((hunt) => (
+              <Card key={hunt.id} className="border-[#B5A878]/20 shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader className="bg-[#A7C55E]/10 border-b border-[#B5A878]/20">
+                  <CardTitle className="text-[#211E12]">{hunt.title}</CardTitle>
+                  <CardDescription className="text-[#211E12]/70">{hunt.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center text-[#211E12]/80">
+                      <Calendar className="h-4 w-4 mr-2 text-[#7687C6]" />
+                      <span>
+                        {new Date(hunt.date).toLocaleDateString("fr-FR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-[#211E12]/80">
+                      <MapPin className="h-4 w-4 mr-2 text-[#7687C6]" />
+                      <span>{hunt.location}</span>
+                    </div>
+                    <div className="flex items-center text-[#211E12]/80">
+                      <Users className="h-4 w-4 mr-2 text-[#7687C6]" />
+                      <span>{hunt.participants} participants</span>
+                    </div>
                   </div>
-                  <div className="flex items-center text-[#211E12]/80">
-                    <MapPin className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{hunt.location}</span>
-                  </div>
-                  <div className="flex items-center text-[#211E12]/80">
-                    <Users className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{hunt.participants} participants</span>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="border-t border-[#B5A878]/20 pt-4">
-                <Link href={`/hunts/${hunt.id}`} className="w-full">
-                  <Button
-                    variant="outline"
-                    className="w-full border-[#A7C55E] text-[#211E12] hover:bg-[#A7C55E]/10 hover:text-[#211E12]"
-                  >
-                    Voir les détails
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+                <CardFooter className="border-t border-[#B5A878]/20 pt-4">
+                  <Link href={`/hunts/${hunt.id}`} className="w-full">
+                    <Button
+                      variant="outline"
+                      className="w-full border-[#A7C55E] text-[#211E12] hover:bg-[#A7C55E]/10 hover:text-[#211E12]"
+                    >
+                      Voir les détails
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </BasePage>
   )
