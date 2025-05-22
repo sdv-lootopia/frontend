@@ -3,13 +3,13 @@ import { Scroll, Mail } from "lucide-react";
 
 export default function MentionsLegales() {
     return (
-        <Card className="border-none shadow-lg bg-white/80 dark:bg-[#1B233E]/80 backdrop-blur-sm">
-            <CardHeader className="bg-gradient-to-r py-4 from-[#D2D6EC] to-[#A4AED9] dark:from-[#1B233E] dark:to-[#35426D] rounded-t-lg">
-                <CardTitle className="flex items-center gap-2 text-[#35426D] dark:text-[#A4AED9]">
+        <Card className="border-none shadow-lg bg-white/80 dark:bg-slate/80 backdrop-blur-sm">
+            <CardHeader className="bg-gradient-to-r py-4 from-blue-50 to-blue-200 dark:from-slate-600 dark:to-blue-600 rounded-t-lg">
+                <CardTitle className="flex items-center gap-2 text-blue-400 dark:text-blue-50">
                     <Scroll className="h-5 w-5" />
                     Mentions Légales
                 </CardTitle>
-                <CardDescription className="text-[#5063A0] dark:text-[#7687C6]">
+                <CardDescription className="text-blue-300 dark:text-blue-200">
                     {"Informations légales concernant l'éditeur et l'hébergeur du site"}
                 </CardDescription>
             </CardHeader>

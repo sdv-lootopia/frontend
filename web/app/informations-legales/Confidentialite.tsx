@@ -3,19 +3,19 @@ import { Shield } from "lucide-react";
 
 export default function Confidentialite() {
     return (
-        <Card className="border-none shadow-lg bg-white/80 dark:bg-[#1B233E]/80 backdrop-blur-sm">
-            <CardHeader className="bg-gradient-to-r py-4 from-[#D2D6EC] to-[#A4AED9] dark:from-[#1B233E] dark:to-[#35426D] rounded-t-lg">
-                <CardTitle className="flex items-center gap-2 text-[#35426D] dark:text-[#A4AED9]">
+        <Card className="border-none shadow-lg bg-white/80 dark:bg-slate/80 backdrop-blur-sm">
+            <CardHeader className="bg-gradient-to-r py-4 from-blue-50 to-blue-200 dark:from-slate-600 dark:to-blue-600 rounded-t-lg">
+                <CardTitle className="flex items-center gap-2 text-blue-400 dark:text-blue-50">
                     <Shield className="h-5 w-5" />
                     Politique de Confidentialité
                 </CardTitle>
-                <CardDescription className="text-[#5063A0] dark:text-[#7687C6]">
+                <CardDescription className="text-blue-300 dark:text-blue-200">
                     Informations sur la collecte et le traitement de vos données personnelles
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pb-6">
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         1. Données collectées
                     </h3>
@@ -36,7 +36,7 @@ export default function Confidentialite() {
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         2. Finalité
                     </h3>
@@ -57,7 +57,7 @@ export default function Confidentialite() {
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         3. Sécurité
                     </h3>
@@ -78,7 +78,7 @@ export default function Confidentialite() {
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         4. Partage des données
                     </h3>
@@ -88,7 +88,7 @@ export default function Confidentialite() {
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         5. Droits RGPD
                     </h3>
@@ -112,7 +112,7 @@ export default function Confidentialite() {
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-[#35426D] dark:text-[#A4AED9] flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-blue-400 dark:text-blue-50 flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-[#7687C6]"></div>
                         6. Cookies
                     </h3>
