@@ -1,4 +1,5 @@
 import { Filter, Search } from "lucide-react"
+import SortDropdown from "../ui/sort-dropdown"
 
 type SortOption = "popular" | "recent" | "price-asc" | "price-desc"
 
@@ -29,19 +30,17 @@ export default function SearchAndSortBar({
                 />
             </div>
 
-            <div className="flex items-center rounded-md border border-neutral-200 bg-white px-3 py-2">
-                <Filter className="mr-2 h-4 w-4 text-blue-300" />
-                <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="bg-transparent text-sm text-gray-700 focus:outline-none"
-                >
-                    <option value="popular">Populaires</option>
-                    <option value="recent">Nouveautés</option>
-                    <option value="price-asc">Prix croissant</option>
-                    <option value="price-desc">Prix décroissant</option>
-                </select>
-            </div>
+            <SortDropdown
+                sortBy={sortBy}
+                setSortBy={(value) => setSortBy(value as SortOption)}
+                options={[
+                    { id: "popular", name: "Populaires" },
+                    { id: "recent", name: "Nouveautés" },
+                    { id: "price-asc", name: "Prix croissant" },
+                    { id: "price-desc", name: "Prix décroissant" },
+                ]}
+                icon={Filter}
+            />
         </div>
     )
 }
