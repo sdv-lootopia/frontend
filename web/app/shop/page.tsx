@@ -1,6 +1,5 @@
 "use client"
 
-import BasePage from "@/components/base-page"
 import { ShoppingBag } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import type { Product, ProductCategory } from "@/types/product"

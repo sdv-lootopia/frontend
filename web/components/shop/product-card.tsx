@@ -29,13 +29,10 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
         }
     }, [product.expiresAt])
 
-    const calculateOriginalPrice = () => {
-        if (!isDiscounted) return product.price
-        
-        // Si discount est 20%, alors le prix actuel est 80% du prix original
-        // Donc prix original = prix actuel / (1 - discount/100)
-        return Math.round(product.price / (1 - product.discount / 100))
-    }
+    const calculateOriginalPrice = () =>
+        isDiscounted && product.discount !== undefined
+            ? Math.round(product.price / (1 - product.discount / 100))
+            : product.price
 
     const originalPrice = calculateOriginalPrice()
 
@@ -80,31 +77,11 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
             </div>
             <div className="flex flex-1 flex-col p-4">
                 <div className="mb-auto">
-                    <div className="mb-2 flex items-start justify-between">
+                    <div className="mb-2">
                         <h3 className="font-medium text-sand-500 line-clamp-2">{product.name}</h3>
-                        <div className={`${isDiscounted ? "flex flex-col items-start" : "flex items-center"} text-blue-300`}>
-                            {isDiscounted ? (
-                                <>
-                                    <div className="flex items-center text-blue-200">
-                                        <Crown className="mr-1 h-4 w-4" />
-                                        <span className="font-medium">{product.price}</span>
-                                    </div>
-                                    <div className="flex items-center text-gray-200">
-                                        <Crown className="mr-1 h-4 w-4" />
-                                        <span className="text-xs line-through">{originalPrice}</span>
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="flex items-center text-blue-200">
-                                    <Crown className="mr-1 h-4 w-4" />
-                                    <span className="font-medium">{product.price}</span>
-                                </div>
-                            )}
-                        </div>
                     </div>
                     <p className="mb-4 text-sm text-grey-200 line-clamp-3">{product.description}</p>
                 </div>
-
                 {product.partner && (
                     <div className="mb-3 flex items-center">
                         <Tag className="mr-1.5 h-4 w-4 text-grey-300" />
@@ -112,11 +89,23 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                     </div>
                 )}
                 <div className="flex items-center justify-between">
-                    <span
-                        className={`text-xs font-semibold ${product.stock && product.stock < 10 ? "text-orange-500" : "text-green-600"}`}
-                    >
-                        {product.stock && product.stock < 10 ? `Plus que ${product.stock} en stock` : "En stock"}
-                    </span>
+                    {isDiscounted ? (
+                        <div className="flex flex-col items-start">
+                            <div className="flex items-center text-blue-200">
+                                <Crown className="mr-1 h-4 w-4" />
+                                <span className="font-medium">{product.price}</span>
+                            </div>
+                            <div className="flex items-center text-gray-200">
+                                <Crown className="mr-1 h-4 w-4" />
+                                <span className="text-xs line-through">{originalPrice}</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center text-blue-200">
+                            <Crown className="mr-1 h-4 w-4" />
+                            <span className="font-medium">{product.price}</span>
+                        </div>
+                    )}
                     <button
                         onClick={() => onBuy(product)}
                         className="flex items-center rounded-full bg-blue-100 p-2 text-sm font-medium text-white hover:bg-blue-400"
@@ -124,6 +113,11 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                         <ShoppingCart className="h-5 w-5" />
                     </button>
                 </div>
+                <span
+                    className={`text-xs font-semibold ${product.stock && product.stock < 10 ? "text-orange-500" : "text-green-600"}`}
+                >
+                    {product.stock && product.stock < 10 && `Plus que ${product.stock} en stock`}
+                </span>
             </div>
         </div>
     )
