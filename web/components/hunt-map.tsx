@@ -39,7 +39,7 @@ export default function HuntsMapPage() {
   const router = useRouter()
 
   const handleMarkerClick = (id: number) => {
-    router.push(`/hunts/${id}`)
+    router.push(`/hunts/${id}`);
   }
 
   return (
