@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { ArrowLeft, Calendar } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import BasePage from "@/components/base-page"
 import { createHunt } from "@/lib/api"
 import { useUser } from "@/lib/useUser"
@@ -27,17 +27,19 @@ export default function CreateHuntPage() {
 
   const [formData, setFormData] = useState({
     title: "",
-    date: "",
-    location: "",
-    coordinates: [46.603354, 1.888334] as [number, number],
-    participants: 10,
     description: "",
-    details: "",
-    organizer: user?.nickname || "",
-    price: "0€", // par défaut gratuit
-    equipment: "",
-    difficulty: "Facile",
-    type: "trésor",
+    world: "réel",
+    mode: "public",
+    chat: "oui",
+    duration: "",
+    price: "0",
+    startDate: "",
+    endDate: "",
+    maxParticipants: "",
+    requireLocation: "oui",
+    digCost: "0",
+    digDelay: "",
+    maps: [],
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -47,39 +49,19 @@ export default function CreateHuntPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
-      const newErrors = { ...errors }
-      delete newErrors[name]
-      setErrors(newErrors)
-    }
   }
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
-      const newErrors = { ...errors }
-      delete newErrors[name]
-      setErrors(newErrors)
-    }
-  }
-
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: Number.parseInt(value) || 0 }))
-    if (errors[name]) {
-      const newErrors = { ...errors }
-      delete newErrors[name]
-      setErrors(newErrors)
-    }
   }
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
     if (!formData.title.trim()) newErrors.title = "Le titre est requis"
-    if (!formData.date) newErrors.date = "La date est requise"
-    if (!formData.location.trim()) newErrors.location = "Le lieu est requis"
-    if (formData.participants <= 0) newErrors.participants = "Le nombre de participants doit être supérieur à 0"
     if (!formData.description.trim()) newErrors.description = "La description est requise"
+    if (!formData.startDate) newErrors.startDate = "Date de début requise"
+    if (!formData.endDate) newErrors.endDate = "Date de fin requise"
+    if (!formData.duration) newErrors.duration = "Durée requise"
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -123,40 +105,84 @@ export default function CreateHuntPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="title">Titre</Label>
-                <Input id="title" name="title" value={formData.title} onChange={handleChange} />
-                {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+                <Label>Titre</Label>
+                <Input name="title" value={formData.title} onChange={handleChange} />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
-                <Textarea id="description" name="description" value={formData.description} onChange={handleChange} />
-                {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
+                <Label>Description</Label>
+                <Textarea name="description" value={formData.description} onChange={handleChange} />
               </div>
               <div>
-                <Label htmlFor="date">Date</Label>
-                <Input id="date" name="date" type="date" value={formData.date} onChange={handleChange} />
-                {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
-              </div>
-              <div>
-                <Label htmlFor="location">Lieu</Label>
-                <Input id="location" name="location" value={formData.location} onChange={handleChange} />
-                {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
-              </div>
-              <div>
-                <Label htmlFor="participants">Nombre de participants max</Label>
-                <Input id="participants" name="participants" type="number" value={formData.participants} onChange={handleNumberChange} />
-                {errors.participants && <p className="text-red-500 text-sm">{errors.participants}</p>}
-              </div>
-              <div>
-                <Label htmlFor="difficulty">Niveau de difficulté</Label>
-                <Select value={formData.difficulty} onValueChange={(val) => handleSelectChange("difficulty", val)}>
-                  <SelectTrigger><SelectValue placeholder="Choisir une difficulté" /></SelectTrigger>
+                <Label>Monde</Label>
+                <Select value={formData.world} onValueChange={(val) => handleSelectChange("world", val)}>
+                  <SelectTrigger><SelectValue placeholder="Choisir le monde" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Facile">Facile</SelectItem>
-                    <SelectItem value="Moyenne">Moyenne</SelectItem>
-                    <SelectItem value="Difficile">Difficile</SelectItem>
+                    <SelectItem value="réel">Monde Réel</SelectItem>
+                    <SelectItem value="virtuel">Monde Cartographique</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div>
+                <Label>Mode</Label>
+                <Select value={formData.mode} onValueChange={(val) => handleSelectChange("mode", val)}>
+                  <SelectTrigger><SelectValue placeholder="Choisir un mode" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="public">Public</SelectItem>
+                    <SelectItem value="privé">Privé</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Chat</Label>
+                <Select value={formData.chat} onValueChange={(val) => handleSelectChange("chat", val)}>
+                  <SelectTrigger><SelectValue placeholder="Activer le chat ?" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="oui">Oui</SelectItem>
+                    <SelectItem value="non">Non</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Durée (en heures)</Label>
+                <Input name="duration" value={formData.duration} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Frais de participation</Label>
+                <Input name="price" value={formData.price} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Date de début</Label>
+                <Input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Date de fin</Label>
+                <Input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Nombre max de participants</Label>
+                <Input name="maxParticipants" value={formData.maxParticipants} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Localisation obligatoire</Label>
+                <Select value={formData.requireLocation} onValueChange={(val) => handleSelectChange("requireLocation", val)}>
+                  <SelectTrigger><SelectValue placeholder="Obligatoire ?" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="oui">Oui</SelectItem>
+                    <SelectItem value="non">Non</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Coût de fouille</Label>
+                <Input name="digCost" value={formData.digCost} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Délai de fouille (en minutes)</Label>
+                <Input name="digDelay" value={formData.digDelay} onChange={handleChange} />
+              </div>
+              <div>
+                <Label>Cartes utilisées (à intégrer plus tard)</Label>
+                <p className="text-sm text-gray-500">Sélection de carte à venir</p>
               </div>
             </CardContent>
             <CardFooter className="border-t border-[#B5A878]/20 pt-4">
