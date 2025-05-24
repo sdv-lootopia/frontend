@@ -10,6 +10,8 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onBuy }: ProductCardProps) {
+    const isDiscounted = product.discount && product.discount > 0
+
     const timeRemaining = useMemo(() => {
         if (!product.expiresAt) return null
 
@@ -26,6 +28,16 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
             return "Expire aujourd'hui"
         }
     }, [product.expiresAt])
+
+    const calculateOriginalPrice = () => {
+        if (!isDiscounted) return product.price
+        
+        // Si discount est 20%, alors le prix actuel est 80% du prix original
+        // Donc prix original = prix actuel / (1 - discount/100)
+        return Math.round(product.price / (1 - product.discount / 100))
+    }
+
+    const originalPrice = calculateOriginalPrice()
 
     return (
         <div className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-neutral-50 shadow-sm hover:shadow-md">
@@ -70,9 +82,24 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                 <div className="mb-auto">
                     <div className="mb-2 flex items-start justify-between">
                         <h3 className="font-medium text-sand-500 line-clamp-2">{product.name}</h3>
-                        <div className="flex items-center text-blue-300">
-                            <Crown className="mr-1 h-4 w-4" />
-                            <span className="font-medium">{product.price}</span>
+                        <div className={`${isDiscounted ? "flex flex-col items-start" : "flex items-center"} text-blue-300`}>
+                            {isDiscounted ? (
+                                <>
+                                    <div className="flex items-center text-blue-200">
+                                        <Crown className="mr-1 h-4 w-4" />
+                                        <span className="font-medium">{product.price}</span>
+                                    </div>
+                                    <div className="flex items-center text-gray-200">
+                                        <Crown className="mr-1 h-4 w-4" />
+                                        <span className="text-xs line-through">{originalPrice}</span>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex items-center text-blue-200">
+                                    <Crown className="mr-1 h-4 w-4" />
+                                    <span className="font-medium">{product.price}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <p className="mb-4 text-sm text-grey-200 line-clamp-3">{product.description}</p>
