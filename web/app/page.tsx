@@ -1,54 +1,47 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Calendar, Users, Plus } from "lucide-react"
+import { MapPin, Calendar, Trophy, Plus } from "lucide-react"
 
-// Données fictives pour les chasses
+// Données fictives pour les chasses au trésor
 const chasses = [
   {
     id: 1,
-    titre: "Chasse au sanglier - Forêt de Brocéliande",
+    titre: "Mystère à Montmartre",
     date: "15 octobre 2025",
-    lieu: "Forêt de Brocéliande, Bretagne",
-    participants: 8,
-    description:
-      "Chasse au sanglier organisée dans la mythique forêt de Brocéliande. Rendez-vous à l'aube pour une journée complète.",
+    lieu: "Paris, Montmartre",
+    participants: 24,
+    theme: "Enquête historique",
+    recompense: "Badge Montmartre + 50 pièces",
   },
   {
     id: 2,
-    titre: "Battue aux chevreuils - Domaine des Chênes",
+    titre: "Le trésor de la Médina",
     date: "22 novembre 2025",
-    lieu: "Domaine des Chênes, Sologne",
-    participants: 12,
-    description: "Battue aux chevreuils dans le prestigieux Domaine des Chênes. Déjeuner inclus au pavillon de chasse.",
+    lieu: "Dakar, Médina",
+    participants: 15,
+    theme: "Culture urbaine",
+    recompense: "Artefact rare + monnaie virtuelle",
   },
   {
     id: 3,
-    titre: "Chasse à courre - Château de Chambord",
+    titre: "Secrets du Château",
     date: "5 décembre 2025",
-    lieu: "Forêt de Chambord, Val de Loire",
-    participants: 20,
-    description: "Traditionnelle chasse à courre dans le domaine royal. Tenue vestimentaire appropriée exigée.",
-  },
-  {
-    id: 4,
-    titre: "Chasse aux faisans - Les Étangs",
-    date: "18 janvier 2026",
-    lieu: "Domaine des Étangs, Charente",
-    participants: 6,
-    description:
-      "Journée de chasse aux faisans dans un cadre exceptionnel. Nombre de participants limité pour garantir une expérience de qualité.",
+    lieu: "Château de Versailles",
+    participants: 30,
+    theme: "Mystère royal",
+    recompense: "Accès à une chasse privée",
   },
 ]
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#211E12]/5">
+    <main className="min-h-screen bg-[#F7F7F2]">
       <div className="container mx-auto py-8 px-4">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-[#211E12]">Tableau de Chasse</h1>
+          <h1 className="text-3xl font-bold text-[#1C1B18]">Chasses au Trésor</h1>
           <Link href="/creer">
-            <Button className="bg-[#7687C6] hover:bg-[#7687C6]/90">
+            <Button className="bg-[#5C77D1] hover:bg-[#5C77D1]/90">
               <Plus className="mr-2 h-4 w-4" /> Créer une chasse
             </Button>
           </Link>
@@ -56,34 +49,37 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {chasses.map((chasse) => (
-            <Card key={chasse.id} className="border-[#B5A878]/20 shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="bg-[#A7C55E]/10 border-b border-[#B5A878]/20">
-                <CardTitle className="text-[#211E12]">{chasse.titre}</CardTitle>
-                <CardDescription className="text-[#211E12]/70">{chasse.description}</CardDescription>
+            <Card key={chasse.id} className="border-[#CFC9B2]/40 shadow hover:shadow-md transition-shadow">
+              <CardHeader className="bg-[#DCE8B0]/20 border-b border-[#CFC9B2]/30">
+                <CardTitle className="text-[#1C1B18]">{chasse.titre}</CardTitle>
+                <CardDescription className="text-[#3B3A35]/70">{chasse.theme}</CardDescription>
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="space-y-3">
-                  <div className="flex items-center text-[#211E12]/80">
-                    <Calendar className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{chasse.date}</span>
-                  </div>
-                  <div className="flex items-center text-[#211E12]/80">
-                    <MapPin className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{chasse.lieu}</span>
-                  </div>
-                  <div className="flex items-center text-[#211E12]/80">
-                    <Users className="h-4 w-4 mr-2 text-[#7687C6]" />
-                    <span>{chasse.participants} participants</span>
-                  </div>
+              <CardContent className="pt-4 space-y-3">
+                <div className="flex items-center text-[#1C1B18]/80">
+                  <Calendar className="h-4 w-4 mr-2 text-[#5C77D1]" />
+                  <span>{chasse.date}</span>
+                </div>
+                <div className="flex items-center text-[#1C1B18]/80">
+                  <MapPin className="h-4 w-4 mr-2 text-[#5C77D1]" />
+                  <span>{chasse.lieu}</span>
+                </div>
+                <div className="flex items-center text-[#1C1B18]/80">
+                  <Trophy className="h-4 w-4 mr-2 text-[#5C77D1]" />
+                  <span>{chasse.recompense}</span>
+                </div>
+                <div className="text-sm text-[#1C1B18]/60">
+                  {chasse.participants} participants déjà inscrits
                 </div>
               </CardContent>
-              <CardFooter className="border-t border-[#B5A878]/20 pt-4">
-                <Button
-                  variant="outline"
-                  className="w-full border-[#A7C55E] text-[#211E12] hover:bg-[#A7C55E]/10 hover:text-[#211E12]"
-                >
-                  Voir les détails
-                </Button>
+              <CardFooter className="border-t border-[#CFC9B2]/30 pt-4">
+                <Link href={`/hunts/${chasse.id}`} className="w-full">
+                  <Button
+                    variant="outline"
+                    className="w-full border-[#DCE8B0] text-[#1C1B18] hover:bg-[#DCE8B0]/10"
+                  >
+                    Voir les détails
+                  </Button>
+                </Link>
               </CardFooter>
             </Card>
           ))}

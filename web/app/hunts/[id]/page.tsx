@@ -1,116 +1,62 @@
 "use client"
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Calendar, MapPin, Users, Map } from "lucide-react"
-import BasePage from "@/components/base-page"
+import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import Link from "next/link"
+import { getHunt } from "@/lib/api"
+import BasePage from "@/components/base-page"
 import HuntMap from "@/components/hunt-map"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft, Calendar, MapPin, Users, Map } from "lucide-react"
+import type { Hunt } from "@/app/api/hunts/route"
+import ParticipantsList from "@/components/ParticipantsList"
 
-// Données fictives pour les chasses
-const hunts = [
-  {
-    id: 1,
-    title: "Chasse au sanglier - Forêt de Brocéliande",
-    date: "15 octobre 2025",
-    location: "Forêt de Brocéliande, Bretagne",
-    coordinates: [48.0183, -2.1733], // Coordonnées approximatives de la forêt de Brocéliande
-    participants: 8,
-    description:
-      "Chasse au sanglier organisée dans la mythique forêt de Brocéliande. Rendez-vous à l'aube pour une journée complète.",
-    details:
-      "Venez participer à une journée de chasse au sanglier dans la mythique forêt de Brocéliande. Cette chasse est organisée par l'association des chasseurs de Bretagne et est ouverte aux chasseurs expérimentés. Le rendez-vous est fixé à 5h du matin au pavillon de chasse. Le petit-déjeuner et le déjeuner sont inclus. N'oubliez pas votre permis de chasse et votre assurance. Les chiens sont autorisés.",
-    organizer: "Association des Chasseurs de Bretagne",
-    price: "150€",
-    equipment: "Fusil, cartouches, gilet orange, bottes",
-    difficulty: "Moyenne",
-  },
-  {
-    id: 2,
-    title: "Battue aux chevreuils - Domaine des Chênes",
-    date: "22 novembre 2025",
-    location: "Domaine des Chênes, Sologne",
-    coordinates: [47.5333, 1.75], // Coordonnées approximatives de la Sologne
-    participants: 12,
-    description: "Battue aux chevreuils dans le prestigieux Domaine des Chênes. Déjeuner inclus au pavillon de chasse.",
-    details:
-      "Le Domaine des Chênes vous invite à participer à une battue aux chevreuils dans son prestigieux domaine de 500 hectares. Cette chasse est réservée aux chasseurs expérimentés. Le rendez-vous est fixé à 7h au château. Le petit-déjeuner et le déjeuner sont inclus. N'oubliez pas votre permis de chasse et votre assurance. Les chiens sont autorisés.",
-    organizer: "Domaine des Chênes",
-    price: "250€",
-    equipment: "Fusil, cartouches, gilet orange, bottes",
-    difficulty: "Difficile",
-  },
-  {
-    id: 3,
-    title: "Chasse à courre - Château de Chambord",
-    date: "5 décembre 2025",
-    location: "Forêt de Chambord, Val de Loire",
-    coordinates: [47.6158, 1.5172], // Coordonnées du Château de Chambord
-    participants: 20,
-    description: "Traditionnelle chasse à courre dans le domaine royal. Tenue vestimentaire appropriée exigée.",
-    details:
-      "Le Château de Chambord vous invite à participer à sa traditionnelle chasse à courre dans le domaine royal. Cette chasse est ouverte aux chasseurs et aux spectateurs. Le rendez-vous est fixé à 9h dans la cour du château. Le déjeuner est inclus. Tenue vestimentaire appropriée exigée : veste rouge, pantalon blanc, bottes noires.",
-    organizer: "Château de Chambord",
-    price: "350€",
-    equipment: "Tenue vestimentaire appropriée",
-    difficulty: "Facile (pour les spectateurs)",
-  },
-  {
-    id: 4,
-    title: "Chasse aux faisans - Les Étangs",
-    date: "18 janvier 2026",
-    location: "Domaine des Étangs, Charente",
-    coordinates: [45.8667, 0.5167], // Coordonnées approximatives de la Charente
-    participants: 6,
-    description:
-      "Journée de chasse aux faisans dans un cadre exceptionnel. Nombre de participants limité pour garantir une expérience de qualité.",
-    details:
-      "Le Domaine des Étangs vous invite à participer à une journée de chasse aux faisans dans un cadre exceptionnel. Cette chasse est ouverte aux chasseurs de tous niveaux. Le nombre de participants est limité à 6 pour garantir une expérience de qualité. Le rendez-vous est fixé à 8h au pavillon de chasse. Le petit-déjeuner et le déjeuner sont inclus. N'oubliez pas votre permis de chasse et votre assurance.",
-    organizer: "Domaine des Étangs",
-    price: "200€",
-    equipment: "Fusil, cartouches, gilet orange, bottes",
-    difficulty: "Facile",
-  },
-]
 
 export default function HuntDetailPage() {
-  const params = useParams()
+  const { id } = useParams()
   const router = useRouter()
-  const huntId = Number(params.id)
+  const [hunt, setHunt] = useState<Hunt | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
-  // Trouver la chasse correspondante
-  const hunt = hunts.find((h) => h.id === huntId)
+  useEffect(() => {
+    const fetchHunt = async () => {
+      try {
+        const huntData = await getHunt(Number(id))
+        setHunt(huntData)
+      } catch (err: any) {
+        setError(err.message || "Erreur lors du chargement de la chasse")
+      }
+    }
 
-  if (!hunt) {
+    fetchHunt()
+  }, [id])
+
+  if (error) {
     return (
       <BasePage>
         <div className="container mx-auto py-8 px-4">
-          <div className="mb-6">
-            <Link href="/hunts" className="inline-flex items-center text-[#7687C6] hover:text-[#7687C6]/80">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour à la liste
-            </Link>
-          </div>
-          <Card className="max-w-3xl mx-auto border-[#B5A878]/20 shadow-md">
-            <CardHeader className="bg-[#A7C55E]/10 border-b border-[#B5A878]/20">
-              <CardTitle className="text-[#211E12]">Chasse non trouvée</CardTitle>
-              <CardDescription className="text-[#211E12]/70">
-                La chasse que vous recherchez n'existe pas.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <p className="text-red-600">{error}</p>
         </div>
       </BasePage>
     )
   }
 
-  // Préparer les données pour la carte
+  if (!hunt) {
+    return (
+      <BasePage>
+        <div className="container mx-auto py-8 px-4">
+          <p>Chargement...</p>
+        </div>
+      </BasePage>
+    )
+  }
+
   const mapLocation = {
     id: hunt.id,
     title: hunt.title,
     location: hunt.location,
-    coordinates: hunt.coordinates as [number, number],
+    coordinates: hunt.coordinates,
   }
 
   return (
@@ -149,7 +95,7 @@ export default function HuntDetailPage() {
                   <Users className="h-5 w-5 mr-3 text-[#7687C6]" />
                   <div>
                     <span className="font-medium">Participants</span>
-                    <p>{hunt.participants} chasseurs maximum</p>
+                    <p>{hunt.participants} maximum</p>
                   </div>
                 </div>
               </div>
