@@ -114,7 +114,7 @@ export default function ProductCard({ product, onBuy }: ProductCardProps) {
                     </button>
                 </div>
                 <span
-                    className={`text-xs font-semibold ${product.stock && product.stock < 10 ? "text-orange-500" : "text-green-600"}`}
+                    className="text-xs font-semibold text-orange-500"
                 >
                     {product.stock && product.stock < 10 && `Plus que ${product.stock} en stock`}
                 </span>
