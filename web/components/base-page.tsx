@@ -5,6 +5,7 @@ import Image from "next/image"
 import { LootopiaLogo } from "./lootopia-logo";
 import { ReactNode, useState } from "react";
 import { useUser } from "@/lib/useUser";
+import { Toaster } from "sonner";
 
 interface BasePageProps {
     children: ReactNode;
@@ -16,6 +17,7 @@ export default function BasePage({ children }: BasePageProps) {
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
+            <Toaster />
             <header className="bg-white p-2 px-6 flex justify-between items-center border-b fixed top-0 w-full z-50">
                 <div className="flex items-center gap-2">
                     <LootopiaLogo />
