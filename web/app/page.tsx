@@ -1,7 +1,21 @@
-export default function Home() {
+"use client"
+
+import LoggedHomePage from "./LoggedHomePage"
+import { useUser } from "@/lib/useUser"
+import UnloggedLootopiaHomepage from "./UnloggedHomePage"
+import { useEffect } from "react"
+
+export default function LootopiaHomepage() {
+  const { user } = useUser()
+
+  useEffect(() => {
+    document.title = "Lootopia - Accueil"
+  }, [])
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      {"Page d'accueil"}
-    </div>
-  );
+    <>{user ?
+      <LoggedHomePage /> :
+      <UnloggedLootopiaHomepage />
+    }</>
+  )
 }

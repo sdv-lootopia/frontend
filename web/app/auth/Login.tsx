@@ -1,13 +1,12 @@
 "use client"
 
-import Link from "next/link"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
-import { Checkbox } from "@/components/ui/checkbox"
-import { SocialButtons, FormDivider } from "./SocialButtons"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import { LootopiaLogo } from "@/components/lootopia-logo"
+import { useUser } from "@/lib/useUser"
+import { useRouter } from "next/navigation"
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Adresse email invalide").required("L'email est obligatoire"),
@@ -19,16 +18,19 @@ const LoginSchema = Yup.object().shape({
 
 type LoginFormProps = {
     onSwitchToRegister: () => void
-    onSocialAuth: (provider: string) => void
 }
 
-export function LoginForm({ onSwitchToRegister, onSocialAuth }: LoginFormProps) {
+export function LoginForm({ onSwitchToRegister }: LoginFormProps) {
     const [isSubmitting, setSubmitting] = useState(false);
-
+    const { loginUser } = useUser();
+    const router = useRouter();
     const handleLoginSubmit = (values: { email: string, password: string, rememberMe: boolean }) => {
         toast.success(values.email);
 
+        loginUser(values.email);
+
         setTimeout(() => {
+            router.push("/");
             setSubmitting(false)
         }, 4000)
     }
@@ -47,15 +49,12 @@ export function LoginForm({ onSwitchToRegister, onSocialAuth }: LoginFormProps) 
 
             <div className="border-t border-gray-200 my-4"></div>
 
-            <SocialButtons mode="login" onSocialAuth={onSocialAuth} />
-            <FormDivider />
-
             <Formik
                 initialValues={{ email: "", password: "", rememberMe: false }}
                 validationSchema={LoginSchema}
                 onSubmit={handleLoginSubmit}
             >
-                {({ touched, errors, setFieldValue, values }) => (
+                {({ touched, errors }) => (
                     <Form className="space-y-4">
                         <div className="space-y-2">
                             <label htmlFor="email" className="block font-medium">
@@ -95,27 +94,7 @@ export function LoginForm({ onSwitchToRegister, onSocialAuth }: LoginFormProps) 
                             {isSubmitting ? "Connexion en cours..." : "Se connecter"}
                         </button>
 
-                        <div className="flex items-center gap-2">
-                            <Checkbox
-                                id="rememberMe"
-                                checked={values.rememberMe}
-                                onCheckedChange={(checked) => {
-                                    setFieldValue("rememberMe", checked)
-                                }}
-                            />
-                            <label
-                                htmlFor="rememberMe"
-                                className="text-sm text-gray-600 cursor-pointer"
-                                onClick={() => setFieldValue("rememberMe", !values.rememberMe)}
-                            >
-                                Rester connecté
-                            </label>
-                        </div>
-
                         <div className="text-center space-y-2">
-                            <Link href="#" className="block text-sm text-gray-600 hover:text-gray-900">
-                                Mot de passe oublié ?
-                            </Link>
                             <button
                                 type="button"
                                 onClick={onSwitchToRegister}
