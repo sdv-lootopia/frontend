@@ -25,6 +25,7 @@ import {
 import { HuntStorage, type Hunt, type UserParticipation } from "@/lib/hunt-storage"
 import { MapModal } from "@/components/map-modal"
 import { toast } from "sonner"
+import { CacheInventory } from "@/components/cache-inventory"
 
 export default function HuntDetailPage({ params }: { params: { id: string } }) {
     const router = useRouter()
@@ -75,12 +76,29 @@ export default function HuntDetailPage({ params }: { params: { id: string } }) {
 
         setDigCooldown(hunt.digDelay * 60) // Convertir en secondes
 
-        // Simulation de la découverte (20% de chance)
-        const found = Math.random() < 0.2
+        // Simulation de position actuelle (Paris)
+        const currentLat = 48.8566
+        const currentLng = 2.3522
+
+        // Chercher un cache à proximité
+        const nearbyCache = HuntStorage.findNearbyCache(hunt.id, currentLat, currentLng, 0.01) // Rayon de ~1km
+
+        if (nearbyCache) {
+            const discovered = HuntStorage.discoverCache(nearbyCache.id)
+            if (discovered) {
+                toast.success(`🎉 Cache découvert : ${nearbyCache.name} !`)
+                if (nearbyCache.reward) {
+                    toast.success(`Récompense obtenue : ${nearbyCache.reward}`)
+                }
+                return
+            }
+        }
+
+        // Simulation de la découverte aléatoire (10% de chance)
+        const found = Math.random() < 0.1
 
         if (found) {
-            toast.success("🎉 Vous avez trouvé quelque chose !")
-            // Ici on pourrait ajouter la logique de récompense
+            toast.success("🎉 Vous avez trouvé quelque chose d'intéressant !")
         } else {
             toast.info("Rien trouvé ici... Continuez à chercher !")
         }
@@ -249,14 +267,20 @@ export default function HuntDetailPage({ params }: { params: { id: string } }) {
                 </div>
 
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-4 bg-sand-50">
+                    <TabsList className="grid w-full grid-cols-5 bg-sand-50">
                         <TabsTrigger value="overview" className="data-[state=active]:bg-blue-400 data-[state=active]:text-white">
                             {"Vue d'ensemble"}
                         </TabsTrigger>
                         <TabsTrigger value="steps" className="data-[state=active]:bg-green-200 data-[state=active]:text-green-600">
                             Étapes
                         </TabsTrigger>
-                        <TabsTrigger value="map" className="data-[state=active]:bg-sand-200 data-[state=active]:text-sand-600">
+                        <TabsTrigger
+                            value="inventory"
+                            className="data-[state=active]:bg-sand-200 data-[state=active]:text-sand-600"
+                        >
+                            Inventaire
+                        </TabsTrigger>
+                        <TabsTrigger value="map" className="data-[state=active]:bg-blue-200 data-[state=active]:text-blue-600">
                             Carte
                         </TabsTrigger>
                         <TabsTrigger value="chat" className="data-[state=active]:bg-blue-300 data-[state=active]:text-white">
@@ -428,10 +452,13 @@ export default function HuntDetailPage({ params }: { params: { id: string } }) {
                             </CardContent>
                         </Card>
                     </TabsContent>
+                    <TabsContent value="inventory" className="space-y-4">
+                        <CacheInventory huntId={hunt.id} />
+                    </TabsContent>
                 </Tabs>
             </div>
 
-            <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
+            <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} huntId={hunt.id} />
         </>
     )
 }

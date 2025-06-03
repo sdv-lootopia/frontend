@@ -23,6 +23,10 @@ export default function HuntsPage() {
     setHunts(allHunts)
   }, [])
 
+  useEffect(() => {
+    document.title = "Chasses au Trésor - Trouvez votre aventure"
+  }, [])
+
   const filteredHunts = hunts.filter((hunt) => {
     const matchesSearch =
       hunt.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -35,14 +39,24 @@ export default function HuntsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-blue-500">Chasses au Trésor Disponibles</h1>
-        <p className="text-gray-400">Découvrez et participez aux chasses au trésor créées par notre communauté</p>
+      <div className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2 text-blue-300">Chasses au Trésor Disponibles</h1>
+          <p className="text-gray-400">Découvrez et participez aux chasses au trésor créées par notre communauté</p>
+        </div>
+        <div className="flex gap-2">
+          <Link href="/create-hunt">
+        <Button className="bg-green-300 hover:bg-green-400 text-white">Créer une chasse</Button>
+          </Link>
+          <Link href="/my-hunts">
+        <Button className="bg-blue-300 hover:bg-blue-400 text-white">Mes chasses</Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filtres et recherche */}
       <Card className="mb-6">
-        <CardContent className="pt-6">
+        <CardContent className="">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
