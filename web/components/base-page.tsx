@@ -6,10 +6,11 @@ import { usePathname } from "next/navigation"
 import { LootopiaLogo } from "./lootopia-logo"
 import { ReactNode, useState } from "react"
 import { useUser } from "@/lib/useUser"
-import { CrownIcon } from "lucide-react"
 import CartSidebar from "./cart/cart-sidebar"
 import CartButton from "./cart/cart-button"
 import { useCart } from "@/contexts/cart-context"
+import { Toaster } from "sonner";
+import { CrownIcon } from "lucide-react";
 
 interface BasePageProps {
     children: ReactNode
@@ -25,6 +26,7 @@ export default function BasePage({ children }: BasePageProps) {
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
+            <Toaster />
             <header className="bg-white p-2 px-6 flex justify-between items-center border-b fixed top-0 w-full z-50">
                 <div className="flex items-center gap-2">
                     <LootopiaLogo />
@@ -32,11 +34,14 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
 
                 <nav className="flex items-center gap-2 relative">
-                    <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                    <Link href="/hunts" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Chasses
                     </Link>
                     <Link href="/shop" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Boutique
+                    </Link>
+                    <Link href="/marketplace" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                        Hôtel des ventes
                     </Link>
                     <Link
                         href="/buy-crowns"
