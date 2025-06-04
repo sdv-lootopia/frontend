@@ -10,6 +10,7 @@ import { CrownIcon } from "lucide-react"
 import CartSidebar from "./cart/cart-sidebar"
 import CartButton from "./cart/cart-button"
 import { useCart } from "@/contexts/cart-context"
+import { useCrownBalance } from "@/contexts/crown-balance-context"
 
 interface BasePageProps {
     children: ReactNode
@@ -20,6 +21,7 @@ export default function BasePage({ children }: BasePageProps) {
     const [open, setOpen] = useState(false)
     const { user } = useUser()
     const { items } = useCart()
+    const { balance } = useCrownBalance()
 
     const showCart = pathname.startsWith("/shop") || pathname.startsWith("/checkout") || items.length > 0
 
@@ -38,13 +40,16 @@ export default function BasePage({ children }: BasePageProps) {
                     <Link href="/shop" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Boutique
                     </Link>
+                    <Link href="/marketplace" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                        Hôtel des ventes
+                    </Link>
                     <Link
                         href="/buy-crowns"
                         className="group flex items-center rounded-4xl bg-blue-50 px-4 py-1.5 mr-4 transition-colors text-blue-300 hover:bg-blue-100"
                         aria-label="Acheter des Couronnes"
                     >
                         <CrownIcon className="h-5 w-5" />
-                        <span className="ml-2 font-medium">1,453</span>
+                        <span className="ml-2 font-medium">{balance.toLocaleString()}</span>
                         <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
                     </Link>
                     {showCart && <CartButton />}

@@ -4,13 +4,12 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, CheckCircle, Crown, MapPin, Minus, Package, Plus, ShoppingBag, Trash2 } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
+import { useCrownBalance } from "@/contexts/crown-balance-context"
 import CheckoutError from "@/components/checkout/checkout-error"
 import CartSummary from "@/components/checkout/cart-summary"
 import EmptyCartMessage from "@/components/cart/empty-cart-message"
 import AddressForm, { AddressData } from "@/components/checkout/address-form"
 import BasePage from "@/components/base-page"
-
-const USER_BALANCE = 1250
 
 export default function CheckoutPage() {
     useEffect(() => {
@@ -22,6 +21,7 @@ export default function CheckoutPage() {
     const [errorMessage, setErrorMessage] = useState("")
     const [shippingAddress, setShippingAddress] = useState<AddressData | null>(null)
     const [showAddressForm, setShowAddressForm] = useState(false)
+    const { balance, spendCrowns } = useCrownBalance()
 
     const handlePayment = () => {
         if (hasPhysicalProducts && !shippingAddress) {
@@ -32,7 +32,15 @@ export default function CheckoutPage() {
         setIsProcessing(true)
 
         setTimeout(() => {
-            if (totalPrice > USER_BALANCE) {
+            const success = spendCrowns(
+                totalPrice,
+                `Achat de ${totalItems} article${totalItems > 1 ? "s" : ""} dans la boutique`,
+                {
+                    relatedItemName: items.map((item) => item.product.name).join(", "),
+                },
+            )
+
+            if (!success) {
                 setPaymentStatus("error")
                 setErrorMessage("Solde insuffisant. Veuillez acheter plus de Couronnes.")
                 setIsProcessing(false)
@@ -247,7 +255,7 @@ export default function CheckoutPage() {
                             <CartSummary
                                 totalItems={totalItems}
                                 totalPrice={totalPrice}
-                                userBalance={USER_BALANCE}
+                                userBalance={balance}
                                 onPay={handlePayment}
                                 isProcessing={isProcessing}
                                 cartEmpty={items.length === 0}
