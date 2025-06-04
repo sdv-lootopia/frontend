@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { LootopiaLogo } from "./lootopia-logo"
@@ -27,6 +28,7 @@ export default function BasePage({ children }: BasePageProps) {
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
+            <Toaster />
             <header className="bg-white p-2 px-6 flex justify-between items-center border-b fixed top-0 w-full z-50">
                 <div className="flex items-center gap-2">
                     <LootopiaLogo />
@@ -34,7 +36,7 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
 
                 <nav className="flex items-center gap-2 relative">
-                    <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                    <Link href="/hunts" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Chasses
                     </Link>
                     <Link href="/shop" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
@@ -52,6 +54,8 @@ export default function BasePage({ children }: BasePageProps) {
                         <span className="ml-2 font-medium">{balance.toLocaleString()}</span>
                         <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
                     </Link>
+                    {showCart && <CartButton />}
+
                     {showCart && <CartButton />}
 
                     <div className="text-xs text-right flex flex-col">

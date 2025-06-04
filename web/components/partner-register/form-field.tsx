@@ -27,9 +27,9 @@ export function FormField({
                 type={type}
                 required={required}
                 placeholder={placeholder}
-                value={value || ""}
+                value={value ?? ""}
                 onChange={onChange}
-                className="w-full rounded-md border border-gray-400 px-4 py-2 text-neutral-600 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-md border border-gray-400 px-4 py-2 text-neutral-600 placeholder-gray-400 focus:border-blue-300 focus:outline-none"
             />
         </div>
     )
