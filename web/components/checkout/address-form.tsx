@@ -79,7 +79,7 @@ export default function AddressForm({ onAddressSubmit, initialAddress }: Address
                                         id="firstName"
                                         name="firstName"
                                         type="text"
-                                        className="w-full rounded-md border border-gray-400 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
+                                        className="w-full rounded-md border border-neutral-300 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
                                         placeholder="Prénom"
                                     />
                                     <ErrorMessage name="firstName" component="div" className="mt-1 text-xs text-red-500" />
@@ -93,7 +93,7 @@ export default function AddressForm({ onAddressSubmit, initialAddress }: Address
                                         id="lastName"
                                         name="lastName"
                                         type="text"
-                                        className="w-full rounded-md border border-gray-400 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
+                                        className="w-full rounded-md border border-neutral-300 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
                                         placeholder="Nom"
                                     />
                                     <ErrorMessage name="lastName" component="div" className="mt-1 text-xs text-red-500" />
@@ -107,7 +107,7 @@ export default function AddressForm({ onAddressSubmit, initialAddress }: Address
                                         id="phone"
                                         name="phone"
                                         type="tel"
-                                        className="w-full rounded-md border border-gray-400 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
+                                        className="w-full rounded-md border border-neutral-300 px-4 py-2 text-sand-500 placeholder-neutral-400 focus:border-blue-300 focus:outline-none"
                                         placeholder="Numéro de téléphone"
                                     />
                                     <ErrorMessage name="phone" component="div" className="mt-1 text-xs text-red-500" />
