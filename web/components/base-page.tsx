@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { LootopiaLogo } from "./lootopia-logo"
@@ -12,6 +11,7 @@ import CartSidebar from "./cart/cart-sidebar"
 import CartButton from "./cart/cart-button"
 import { useCart } from "@/contexts/cart-context"
 import { useCrownBalance } from "@/contexts/crown-balance-context"
+import { Toaster } from "react-hot-toast"
 
 interface BasePageProps {
     children: ReactNode
