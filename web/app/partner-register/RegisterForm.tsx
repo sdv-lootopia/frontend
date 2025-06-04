@@ -8,6 +8,9 @@ import { FormField } from "./FormField"
 import { TextAreaField } from "./TextAreaField"
 import { Address } from "./Address"
 import { FileUpload } from "./FileUpload"
+import { useState } from "react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import Link from "next/link"
 
 interface RegisterFormProps {
     currentTab: number
@@ -15,7 +18,7 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({ currentTab, formikRef }: RegisterFormProps) {
-
+    const [popUpOpen, setPopUpOpen] = useState(false);
     const validationSchema = Yup.object({
         lastName: Yup.string().required("Requis"),
         firstName: Yup.string().required("Requis"),
@@ -30,8 +33,33 @@ export function RegisterForm({ currentTab, formikRef }: RegisterFormProps) {
         description: Yup.string().required("Requis"),
     })
 
+    const handleSubmit = (values: any) => {
+        console.log("Submitted values:", values)
+        setPopUpOpen(true)
+    }
+
     return (
         <div className="w-full">
+            <Dialog
+                open={popUpOpen}
+                onOpenChange={setPopUpOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Demande de partenariat envoyée</DialogTitle>
+                        <DialogDescription>
+                            Votre demande de partenariat a été envoyée avec succès. Nous vous contacterons bientôt.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Link
+                            href="/"
+                            className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600"
+                        >
+                            {"Retour sur la page d'acceuil"}
+                        </Link>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
             <Formik
                 innerRef={formikRef}
                 initialValues={{
@@ -49,10 +77,7 @@ export function RegisterForm({ currentTab, formikRef }: RegisterFormProps) {
                     description: "",
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    console.log("Submitted values:", values)
-                    alert("Formulaire soumis avec succès !")
-                }}
+                onSubmit={handleSubmit}
             >
                 {({ handleChange, values, errors, touched, handleSubmit }) => (
                     <Form className="space-y-6" onSubmit={handleSubmit}>
