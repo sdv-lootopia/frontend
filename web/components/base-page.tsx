@@ -1,20 +1,28 @@
 "use client"
 
-import Link from "next/link";
+import Link from "next/link"
 import Image from "next/image"
-import { LootopiaLogo } from "./lootopia-logo";
-import { ReactNode, useState } from "react";
-import { useUser } from "@/lib/useUser";
+import { usePathname } from "next/navigation"
+import { LootopiaLogo } from "./lootopia-logo"
+import { ReactNode, useState } from "react"
+import { useUser } from "@/lib/useUser"
+import CartSidebar from "./cart/cart-sidebar"
+import CartButton from "./cart/cart-button"
+import { useCart } from "@/contexts/cart-context"
 import { Toaster } from "sonner";
 import { CrownIcon } from "lucide-react";
 
 interface BasePageProps {
-    children: ReactNode;
+    children: ReactNode
 }
 
 export default function BasePage({ children }: BasePageProps) {
-    const [open, setOpen] = useState(false);
-    const { user } = useUser();
+    const pathname = usePathname()
+    const [open, setOpen] = useState(false)
+    const { user } = useUser()
+    const { items } = useCart()
+
+    const showCart = pathname.startsWith("/shop") || pathname.startsWith("/checkout") || items.length > 0
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
@@ -44,7 +52,7 @@ export default function BasePage({ children }: BasePageProps) {
                         <span className="ml-2 font-medium">1,453</span>
                         <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
                     </Link>
-                    {/* {showCart && <CartButton />} */}
+                    {showCart && <CartButton />}
 
                     <div className="text-xs text-right flex flex-col">
                         <span>{user?.nickname}</span>
@@ -78,6 +86,8 @@ export default function BasePage({ children }: BasePageProps) {
 
             <main>{children}</main>
 
+            <CartSidebar />
+
             <footer className="w-full border-t py-6 px-4 text-sm text-gray-500 bg-white mt-4">
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
                     <p>&copy; {new Date().getFullYear()} Lootopia. Tous droits réservés.</p>
@@ -95,5 +105,5 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
             </footer>
         </div>
-    );
+    )
 }

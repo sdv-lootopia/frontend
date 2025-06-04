@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 import BasePage from "@/components/base-page"
 import { useUser } from "@/lib/useUser"
+import { useEffect } from "react"
 import Link from "next/link"
 
 export default function Profile() {
@@ -82,6 +83,10 @@ export default function Profile() {
                 return "bg-green-300 text-green-50"
         }
     }
+
+    useEffect(() => {
+        document.title = "Profil - Lootopia";
+    }, [])
 
     return (
         <BasePage>
