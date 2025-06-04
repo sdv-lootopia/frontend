@@ -1,16 +1,17 @@
 "use client"
 
 import Link from "next/link"
+import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { LootopiaLogo } from "./lootopia-logo"
 import { ReactNode, useState } from "react"
 import { useUser } from "@/lib/useUser"
+import { CrownIcon } from "lucide-react"
 import CartSidebar from "./cart/cart-sidebar"
 import CartButton from "./cart/cart-button"
 import { useCart } from "@/contexts/cart-context"
-import { Toaster } from "sonner";
-import { CrownIcon } from "lucide-react";
+import { useCrownBalance } from "@/contexts/crown-balance-context"
 
 interface BasePageProps {
     children: ReactNode
@@ -21,6 +22,7 @@ export default function BasePage({ children }: BasePageProps) {
     const [open, setOpen] = useState(false)
     const { user } = useUser()
     const { items } = useCart()
+    const { balance } = useCrownBalance()
 
     const showCart = pathname.startsWith("/shop") || pathname.startsWith("/checkout") || items.length > 0
 
@@ -49,9 +51,11 @@ export default function BasePage({ children }: BasePageProps) {
                         aria-label="Acheter des Couronnes"
                     >
                         <CrownIcon className="h-5 w-5" />
-                        <span className="ml-2 font-medium">1,453</span>
+                        <span className="ml-2 font-medium">{balance.toLocaleString()}</span>
                         <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
                     </Link>
+                    {showCart && <CartButton />}
+
                     {showCart && <CartButton />}
 
                     <div className="text-xs text-right flex flex-col">

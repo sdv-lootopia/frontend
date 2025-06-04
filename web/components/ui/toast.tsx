@@ -26,7 +26,7 @@ export default function Toast({ message, type = "success", duration = 3000, onCl
     if (!isVisible) return null
 
     const bgColor = {
-        success: "bg-green-500",
+        success: "bg-green-100",
         error: "bg-red-500",
         info: "bg-blue-300",
     }[type]
