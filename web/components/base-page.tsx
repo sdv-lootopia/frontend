@@ -5,6 +5,8 @@ import Image from "next/image"
 import { LootopiaLogo } from "./lootopia-logo";
 import { ReactNode, useState } from "react";
 import { useUser } from "@/lib/useUser";
+import { Toaster } from "sonner";
+import { CrownIcon } from "lucide-react";
 
 interface BasePageProps {
     children: ReactNode;
@@ -16,6 +18,7 @@ export default function BasePage({ children }: BasePageProps) {
 
     return (
         <div className="min-h-screen w-screen bg-[#f5f5f0] mt-16 flex flex-col justify-between">
+            <Toaster />
             <header className="bg-white p-2 px-6 flex justify-between items-center border-b fixed top-0 w-full z-50">
                 <div className="flex items-center gap-2">
                     <LootopiaLogo />
@@ -23,12 +26,26 @@ export default function BasePage({ children }: BasePageProps) {
                 </div>
 
                 <nav className="flex items-center gap-2 relative">
-                    <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
-                        Boutique
-                    </Link>
-                    <Link href="#" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                    <Link href="/hunts" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
                         Chasses
                     </Link>
+                    <Link href="/shop" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                        Boutique
+                    </Link>
+                    <Link href="/marketplace" className="text-lg font-medium hover:underline hidden sm:inline mr-4">
+                        Hôtel des ventes
+                    </Link>
+                    <Link
+                        href="/buy-crowns"
+                        className="group flex items-center rounded-4xl bg-blue-50 px-4 py-1.5 mr-4 transition-colors text-blue-300 hover:bg-blue-100"
+                        aria-label="Acheter des Couronnes"
+                    >
+                        <CrownIcon className="h-5 w-5" />
+                        <span className="ml-2 font-medium">1,453</span>
+                        <span className="ml-2 hidden text-sm text-gray-600 group-hover:inline group-hover:text-white group-hover:font-medium">→ Acheter</span>
+                    </Link>
+                    {/* {showCart && <CartButton />} */}
+
                     <div className="text-xs text-right flex flex-col">
                         <span>{user?.nickname}</span>
                         <span>{user?.email}</span>

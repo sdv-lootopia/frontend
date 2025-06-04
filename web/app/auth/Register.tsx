@@ -2,10 +2,11 @@
 
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
-import { SocialButtons, FormDivider } from "./SocialButtons"
 import { useState } from "react"
 import { LootopiaLogo } from "@/components/lootopia-logo"
 import Link from "next/link"
+import { useUser } from "@/lib/useUser"
+import { useRouter } from "next/navigation"
 
 const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -19,15 +20,18 @@ const RegisterSchema = Yup.object().shape({
 
 type RegisterFormProps = {
     onSwitchToLogin: () => void
-    onSocialAuth: (provider: string) => void
 }
 
-export function RegisterForm({ onSwitchToLogin, onSocialAuth }: RegisterFormProps) {
+export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
     const [isSubmitting, setSubmitting] = useState(false);
+    const { registerUser } = useUser();
+    const router = useRouter();
 
-    const handleRegisterSubmit = (values: unknown) => {
+    const handleRegisterSubmit = (values: { nickname: string, email: string }) => {
         console.log("Register values:", values)
+        registerUser(values.nickname, values.email, "/bbyoda.jpg", "");
         setTimeout(() => {
+            router.push("/");
             setSubmitting(false)
         }, 1000)
     }
@@ -57,10 +61,6 @@ export function RegisterForm({ onSwitchToLogin, onSocialAuth }: RegisterFormProp
             </div>
 
             <div className="border-t border-gray-200 my-4"></div>
-
-            <SocialButtons mode="register" onSocialAuth={onSocialAuth} />
-            <FormDivider />
-
             <Formik
                 initialValues={{ nickname: "", email: "", password: "" }}
                 validationSchema={RegisterSchema}

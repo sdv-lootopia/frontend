@@ -3,8 +3,7 @@
 import { motion } from "framer-motion"
 import { Map, Trophy, Smartphone, Users } from "lucide-react"
 
-export default function LootopiaPresentation() {
-
+export function LootopiaPresentation() {
   const features = [
     {
       icon: <Map className="h-6 w-6" />,
@@ -29,7 +28,7 @@ export default function LootopiaPresentation() {
   ]
 
   return (
-    <div className="w-full md:w-1/2 bg-gradient-to-br from-indigo-100 to-indigo-200 p-8 md:p-12 flex flex-col items-center justify-center overflow-hidden rounded-lg shadow-lg">
+    <div className="w-full md:w-1/2 bg-gradient-to-br from-blue-100 to-blue-200 p-8 md:p-12 flex flex-col items-center justify-center overflow-hidden rounded-lg shadow-lg">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -37,9 +36,9 @@ export default function LootopiaPresentation() {
         className="text-center space-y-6 mb-8"
       >
         <div className="relative inline-block">
-          <h2 className="text-lg font-medium tracking-wide text-indigo-800 uppercase">{"Bienvenue dans l'univers de"}</h2>
+          <h2 className="text-lg font-medium tracking-wide text-blue-600 uppercase">{"Bienvenue dans l'univers de"}</h2>
           <motion.h3
-            className="text-4xl md:text-5xl font-bold text-indigo-950 mt-2"
+            className="text-4xl md:text-5xl font-bold text-blue-600 mt-2"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -49,7 +48,7 @@ export default function LootopiaPresentation() {
         </div>
 
         <motion.p
-          className="text-md text-indigo-900 max-w-md mx-auto leading-relaxed"
+          className="text-md text-blue-500 max-w-md mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
@@ -73,13 +72,13 @@ export default function LootopiaPresentation() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
-            whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.2)" }}
+            whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(80, 99, 160, 0.2)" }}
           >
             <div className="flex items-center space-x-3">
-              <div className="bg-indigo-100 p-2 rounded-full text-indigo-600">{feature.icon}</div>
+              <div className="bg-blue-100 p-2 rounded-full text-blue-600">{feature.icon}</div>
               <div>
-                <h4 className="font-semibold text-indigo-900">{feature.title}</h4>
-                <p className="text-xs text-indigo-700">{feature.description}</p>
+                <h4 className="font-semibold text-blue-600">{feature.title}</h4>
+                <p className="text-xs text-blue-500">{feature.description}</p>
               </div>
             </div>
           </motion.div>
@@ -92,10 +91,10 @@ export default function LootopiaPresentation() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.5 }}
       >
-        <div className="h-2 w-2 rounded-full bg-indigo-400" />
-        <div className="h-2 w-2 rounded-full bg-indigo-400" />
-        <div className="h-2 w-2 rounded-full bg-indigo-400" />
-        <p className="ml-2 text-indigo-800 text-sm font-medium">{"Prêt à commencer l'aventure ?"}</p>
+        <div className="h-2 w-2 rounded-full bg-blue-400" />
+        <div className="h-2 w-2 rounded-full bg-blue-400" />
+        <div className="h-2 w-2 rounded-full bg-blue-400" />
+        <p className="ml-2 text-blue-600 text-sm font-medium">{"Prêt à commencer l'aventure ?"}</p>
       </motion.div>
     </div>
   )

@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { LoginForm } from "./Login"
 import { RegisterForm } from "./Register"
-import LootopiaPresentation from "./LootopiaPresentation"
+import { LootopiaPresentation } from "./LootopiaPresentation"
+import { useUser } from "@/lib/useUser"
 
 const formVariants = {
     enter: (direction: number) => ({
@@ -24,19 +25,50 @@ const formVariants = {
 export default function AuthPage() {
     const [isLogin, setIsLogin] = useState(true)
     const [direction, setDirection] = useState(0)
+    const { logoutUser } = useUser()
+
+    // Fonction pour obtenir le hash actuel
+    const getHashMode = () => {
+        if (typeof window !== "undefined") {
+            const hash = window.location.hash.replace("#", "")
+            return hash === "register" ? "register" : "login"
+        }
+        return "login"
+    }
+
+    // Initialiser l'état basé sur le hash
+    useEffect(() => {
+        const currentMode = getHashMode()
+        setIsLogin(currentMode === "login")
+        logoutUser();
+    }, [])
+
+    // Écouter les changements de hash
+    useEffect(() => {
+        const handleHashChange = () => {
+            const currentMode = getHashMode()
+            const shouldBeLogin = currentMode === "login"
+
+            if (shouldBeLogin !== isLogin) {
+                setDirection(shouldBeLogin ? -1 : 1)
+                setIsLogin(shouldBeLogin)
+            }
+        }
+
+        window.addEventListener("hashchange", handleHashChange)
+        return () => window.removeEventListener("hashchange", handleHashChange)
+    }, [isLogin])
 
     const switchToLogin = () => {
         setDirection(-1)
         setIsLogin(true)
+        window.history.pushState(null, "", "#login")
     }
 
     const switchToRegister = () => {
         setDirection(1)
         setIsLogin(false)
-    }
-
-    const handleSocialAuth = (provider: string) => {
-        console.log(`Authentification avec ${provider}`)
+        window.history.pushState(null, "", "#register")
     }
 
     return (
@@ -56,7 +88,7 @@ export default function AuthPage() {
                                 exit="exit"
                                 transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
                             >
-                                <LoginForm onSwitchToRegister={switchToRegister} onSocialAuth={handleSocialAuth} />
+                                <LoginForm onSwitchToRegister={switchToRegister} />
                             </motion.div>
                         ) : (
                             <motion.div
@@ -68,7 +100,7 @@ export default function AuthPage() {
                                 exit="exit"
                                 transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
                             >
-                                <RegisterForm onSwitchToLogin={switchToLogin} onSocialAuth={handleSocialAuth} />
+                                <RegisterForm onSwitchToLogin={switchToLogin} />
                             </motion.div>
                         )}
                     </AnimatePresence>
